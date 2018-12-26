@@ -6,5 +6,10 @@
             "email": "madhusudhansubedi4@gmail.com"
         }
     ],
-    "require": {}
+    "require": {},
+    "autoload": {
+        "classmap": [
+            "./"
+        ]
+    }
 }
