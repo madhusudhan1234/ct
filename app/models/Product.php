@@ -9,7 +9,7 @@ class Product
             [
                 "id" => "1",
                 "name" => "Tshirt",
-                "price" => "100",
+                "price" => "50",
                 "currency" => "USD",
             ],
             [

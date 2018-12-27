@@ -9,7 +9,8 @@ class CodingTaskApp extends Component {
     this.state = {
       products: [],
       payment_methods: [],
-    }
+      productPurchaseMessage: '',
+    };
 
     this.orderProduct = this.orderProduct.bind(this);
   }
@@ -46,13 +47,18 @@ class CodingTaskApp extends Component {
         },
       })
       .then(response => response.json())
-      .then(data => console.log(data));
+      .then(data => this.setState({ productPurchaseMessage: data.message }));
   }
 
   render() {
     return (
       <div className="container">
         <h1>Available Products!</h1>
+        {this.state.productPurchaseMessage &&
+          <div className="alert alert-primary" role="alert">
+            {this.state.productPurchaseMessage}
+          </div>
+        }
         { this.state.products.map(product =>
           <Product
             key={product.id}

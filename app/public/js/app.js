@@ -86,10 +86,10 @@
 /************************************************************************/
 /******/ ({
 
-/***/ "./assets/CodingTaskApp.js":
-/*!*********************************!*\
-  !*** ./assets/CodingTaskApp.js ***!
-  \*********************************/
+/***/ "./assets/js/CodingTaskApp.js":
+/*!************************************!*\
+  !*** ./assets/js/CodingTaskApp.js ***!
+  \************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -97,7 +97,7 @@
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _components_Product__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/Product */ "./assets/components/Product.js");
+/* harmony import */ var _components_Product__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/Product */ "./assets/js/components/Product.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -132,7 +132,8 @@ function (_Component) {
     _this = _possibleConstructorReturn(this, _getPrototypeOf(CodingTaskApp).call(this, props));
     _this.state = {
       products: [],
-      payment_methods: []
+      payment_methods: [],
+      productPurchaseMessage: ''
     };
     _this.orderProduct = _this.orderProduct.bind(_assertThisInitialized(_assertThisInitialized(_this)));
     return _this;
@@ -171,6 +172,8 @@ function (_Component) {
   }, {
     key: "orderProduct",
     value: function orderProduct(e, paymentMethod, quantity, price, productName) {
+      var _this4 = this;
+
       var payload = {
         quantity: quantity,
         name: productName,
@@ -187,22 +190,27 @@ function (_Component) {
       }).then(function (response) {
         return response.json();
       }).then(function (data) {
-        return console.log(data);
+        return _this4.setState({
+          productPurchaseMessage: data.message
+        });
       });
     }
   }, {
     key: "render",
     value: function render() {
-      var _this4 = this;
+      var _this5 = this;
 
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "container"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "Available Products!"), this.state.products.map(function (product) {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "Available Products!"), this.state.productPurchaseMessage && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "alert alert-primary",
+        role: "alert"
+      }, this.state.productPurchaseMessage), this.state.products.map(function (product) {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Product__WEBPACK_IMPORTED_MODULE_1__["default"], {
           key: product.id,
           product: product,
-          paymentMethods: _this4.state.payment_methods,
-          order: _this4.orderProduct
+          paymentMethods: _this5.state.payment_methods,
+          order: _this5.orderProduct
         });
       }));
     }
@@ -221,10 +229,10 @@ function (_Component) {
 
 /***/ }),
 
-/***/ "./assets/app.js":
-/*!***********************!*\
-  !*** ./assets/app.js ***!
-  \***********************/
+/***/ "./assets/js/app.js":
+/*!**************************!*\
+  !*** ./assets/js/app.js ***!
+  \**************************/
 /*! no exports provided */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -234,7 +242,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _CodingTaskApp__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./CodingTaskApp */ "./assets/CodingTaskApp.js");
+/* harmony import */ var _CodingTaskApp__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./CodingTaskApp */ "./assets/js/CodingTaskApp.js");
 
 
 
@@ -242,10 +250,10 @@ Object(react_dom__WEBPACK_IMPORTED_MODULE_1__["render"])(react__WEBPACK_IMPORTED
 
 /***/ }),
 
-/***/ "./assets/components/Product.js":
-/*!**************************************!*\
-  !*** ./assets/components/Product.js ***!
-  \**************************************/
+/***/ "./assets/js/components/Product.js":
+/*!*****************************************!*\
+  !*** ./assets/js/components/Product.js ***!
+  \*****************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -23875,13 +23883,13 @@ module.exports = g;
 /***/ }),
 
 /***/ 0:
-/*!*****************************!*\
-  !*** multi ./assets/app.js ***!
-  \*****************************/
+/*!********************************!*\
+  !*** multi ./assets/js/app.js ***!
+  \********************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /home/madhu/Workspace/ct/assets/app.js */"./assets/app.js");
+module.exports = __webpack_require__(/*! /home/madhu/Workspace/ct/assets/js/app.js */"./assets/js/app.js");
 
 
 /***/ })
