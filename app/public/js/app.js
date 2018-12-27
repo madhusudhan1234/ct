@@ -97,6 +97,7 @@
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _components_Product__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/Product */ "./assets/components/Product.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -107,13 +108,14 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
 
 
 
@@ -123,15 +125,92 @@ function (_Component) {
   _inherits(CodingTaskApp, _Component);
 
   function CodingTaskApp(props) {
+    var _this;
+
     _classCallCheck(this, CodingTaskApp);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(CodingTaskApp).call(this, props));
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(CodingTaskApp).call(this, props));
+    _this.state = {
+      products: [],
+      payment_methods: []
+    };
+    _this.orderProduct = _this.orderProduct.bind(_assertThisInitialized(_assertThisInitialized(_this)));
+    return _this;
   }
 
   _createClass(CodingTaskApp, [{
+    key: "fetchProducts",
+    value: function fetchProducts() {
+      var _this2 = this;
+
+      fetch('/api/products').then(function (response) {
+        return response.json();
+      }).then(function (product) {
+        return _this2.setState({
+          products: product.data
+        });
+      }).catch(function (e) {
+        return console.error(e);
+      });
+    }
+  }, {
+    key: "fetchPaymentMethods",
+    value: function fetchPaymentMethods() {
+      var _this3 = this;
+
+      fetch('/api/payment-methods').then(function (response) {
+        return response.json();
+      }).then(function (payment_method) {
+        return _this3.setState({
+          payment_methods: payment_method.data
+        });
+      }).catch(function (e) {
+        return console.error(e);
+      });
+    }
+  }, {
+    key: "orderProduct",
+    value: function orderProduct(e, paymentMethod, quantity, price, productName) {
+      var payload = {
+        quantity: quantity,
+        name: productName,
+        price: price,
+        payment_method: paymentMethod
+      };
+      e.preventDefault();
+      fetch("/api/orders", {
+        method: "POST",
+        body: JSON.stringify(payload),
+        headers: {
+          "Content-Type": "application/json"
+        }
+      }).then(function (response) {
+        return response.json();
+      }).then(function (data) {
+        return console.log(data);
+      });
+    }
+  }, {
     key: "render",
     value: function render() {
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "Hellos super"));
+      var _this4 = this;
+
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "container"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "Available Products!"), this.state.products.map(function (product) {
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Product__WEBPACK_IMPORTED_MODULE_1__["default"], {
+          key: product.id,
+          product: product,
+          paymentMethods: _this4.state.payment_methods,
+          order: _this4.orderProduct
+        });
+      }));
+    }
+  }, {
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      this.fetchProducts();
+      this.fetchPaymentMethods();
     }
   }]);
 
@@ -160,6 +239,139 @@ __webpack_require__.r(__webpack_exports__);
 
 
 Object(react_dom__WEBPACK_IMPORTED_MODULE_1__["render"])(react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_CodingTaskApp__WEBPACK_IMPORTED_MODULE_2__["default"], null), document.getElementById('app'));
+
+/***/ }),
+
+/***/ "./assets/components/Product.js":
+/*!**************************************!*\
+  !*** ./assets/components/Product.js ***!
+  \**************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Product; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+
+
+var Product =
+/*#__PURE__*/
+function (_Component) {
+  _inherits(Product, _Component);
+
+  function Product(props) {
+    var _this;
+
+    _classCallCheck(this, Product);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(Product).call(this, props));
+    _this.state = {
+      isShowForm: false,
+      selectedQuantity: 1,
+      selectedPayMethod: 'cash'
+    };
+    _this.handlePayMethodChange = _this.handlePayMethodChange.bind(_assertThisInitialized(_assertThisInitialized(_this)));
+    _this.showForm = _this.showForm.bind(_assertThisInitialized(_assertThisInitialized(_this)));
+    _this.handleQuantityChange = _this.handleQuantityChange.bind(_assertThisInitialized(_assertThisInitialized(_this)));
+    return _this;
+  }
+
+  _createClass(Product, [{
+    key: "handlePayMethodChange",
+    value: function handlePayMethodChange(e) {
+      this.setState({
+        selectedPayMethod: e.target.value
+      });
+    }
+  }, {
+    key: "showForm",
+    value: function showForm() {
+      this.setState({
+        isShowForm: true
+      });
+    }
+  }, {
+    key: "handleQuantityChange",
+    value: function handleQuantityChange(e) {
+      this.setState({
+        selectedQuantity: e.target.value
+      });
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var _this2 = this;
+
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "card",
+        key: this.props.product.id
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "card-body"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", {
+        className: "card-title"
+      }, this.props.product.name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+        className: "card-text"
+      }, this.props.product.currency, " ", this.props.product.price), !this.state.isShowForm && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        className: "btn btn-primary",
+        onClick: this.showForm
+      }, "Process to Buy"), this.state.isShowForm && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "form-group"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: "payment"
+      }, "How do you pay?"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+        className: "form-control",
+        id: "payment",
+        onChange: this.handlePayMethodChange
+      }, this.props.paymentMethods.map(function (paymentMethod) {
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+          key: paymentMethod.id,
+          value: paymentMethod.type
+        }, paymentMethod.name);
+      }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "form-group"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: "quantity"
+      }, "Quantity"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        className: "form-control",
+        type: "number",
+        name: "quantity",
+        defaultValue: "1",
+        min: "1",
+        max: "100",
+        onChange: this.handleQuantityChange
+      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        className: "btn btn-primary",
+        onClick: function onClick(e) {
+          return _this2.props.order(e, _this2.state.selectedPayMethod, _this2.state.selectedQuantity, _this2.props.product.price, _this2.props.product.name);
+        }
+      }, "Buy"))));
+    }
+  }]);
+
+  return Product;
+}(react__WEBPACK_IMPORTED_MODULE_0__["Component"]);
+
+
 
 /***/ }),
 
