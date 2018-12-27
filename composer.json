@@ -8,9 +8,6 @@
     ],
     "require": {},
     "autoload": {
-        "files": [
-          "helpers.php"
-        ],
         "classmap": [
             "./"
         ]

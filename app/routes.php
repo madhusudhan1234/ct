@@ -4,4 +4,4 @@ $router->get('', 'HomeController@index');
 
 $router->get('api/payment-methods', 'API\PaymentMethodsController@index');
 $router->get('api/products', 'API\ProductsController@index');
-$router->post('api/order', 'API\OrderController@store');
+$router->post('api/orders', 'API\OrderController@store');
