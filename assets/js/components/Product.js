@@ -9,7 +9,7 @@ export default  class Product extends Component {
       selectedQuantity: 1,
       selectedPayMethod: 'cash',
       totalPrice: null,
-    }
+    };
 
     this.handlePayMethodChange = this.handlePayMethodChange.bind(this);
     this.showForm = this.showForm.bind(this);
