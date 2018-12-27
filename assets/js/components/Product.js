@@ -7,12 +7,14 @@ export default  class Product extends Component {
     this.state = {
       isShowForm: false,
       selectedQuantity: 1,
-      selectedPayMethod: 'cash'
+      selectedPayMethod: 'cash',
+      totalPrice: null,
     }
 
     this.handlePayMethodChange = this.handlePayMethodChange.bind(this);
     this.showForm = this.showForm.bind(this);
     this.handleQuantityChange = this.handleQuantityChange.bind(this);
+    this.calculatePrice = this.calculatePrice.bind(this);
   }
 
   handlePayMethodChange(e) {
@@ -24,7 +26,11 @@ export default  class Product extends Component {
   };
 
   handleQuantityChange(e) {
-    this.setState({ selectedQuantity: e.target.value });
+    this.setState({ selectedQuantity: e.target.value }, () => this.calculatePrice());
+  }
+
+  calculatePrice() {
+    this.setState({ totalPrice: this.props.product.price * this.state.selectedQuantity });
   }
 
   render(){
@@ -55,8 +61,13 @@ export default  class Product extends Component {
               </button>
             </form>
           }
+          {this.state.totalPrice && <span>Price: <strong>{this.props.product.currency} {this.state.totalPrice}</strong></span>}
         </div>
       </div>
     );
+  }
+
+  componentDidMount() {
+    this.calculatePrice();
   }
 }

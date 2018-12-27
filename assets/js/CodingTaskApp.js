@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Product from './components/Product';
+import { getProducts, getPaymentMethods, postOrders } from "./api/calls";
 
 class CodingTaskApp extends Component {
 
@@ -16,7 +17,7 @@ class CodingTaskApp extends Component {
   }
 
   fetchProducts() {
-    fetch('/api/products')
+    getProducts()
       .then(response => response.json())
       .then(product => this.setState({ products: product.data }))
       .catch(e => console.error(e));
@@ -24,28 +25,21 @@ class CodingTaskApp extends Component {
   }
 
   fetchPaymentMethods() {
-    fetch('/api/payment-methods')
+    getPaymentMethods()
       .then(response => response.json())
       .then(payment_method => this.setState({ payment_methods: payment_method.data }))
       .catch(e => console.error(e));
   }
 
-  orderProduct(e, paymentMethod, quantity, price, productName) {
+  orderProduct(e, paymentMethod, quantity, price, name) {
     const payload = {
-      quantity: quantity,
-      name: productName,
-      price: price,
+      quantity,
+      name,
+      price,
       payment_method: paymentMethod,
     };
     e.preventDefault();
-    fetch("/api/orders",
-      {
-        method: "POST",
-        body: JSON.stringify(payload),
-        headers: {
-          "Content-Type": "application/json"
-        },
-      })
+    postOrders(payload)
       .then(response => response.json())
       .then(data => this.setState({ productPurchaseMessage: data.message }));
   }
@@ -59,7 +53,7 @@ class CodingTaskApp extends Component {
             {this.state.productPurchaseMessage}
           </div>
         }
-        { this.state.products.map(product =>
+        {this.state.products.map(product =>
           <Product
             key={product.id}
             product={product}

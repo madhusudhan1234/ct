@@ -98,6 +98,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _components_Product__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/Product */ "./assets/js/components/Product.js");
+/* harmony import */ var _api_calls__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./api/calls */ "./assets/js/api/calls.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -115,6 +116,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
 
 
 
@@ -144,7 +146,7 @@ function (_Component) {
     value: function fetchProducts() {
       var _this2 = this;
 
-      fetch('/api/products').then(function (response) {
+      Object(_api_calls__WEBPACK_IMPORTED_MODULE_2__["getProducts"])().then(function (response) {
         return response.json();
       }).then(function (product) {
         return _this2.setState({
@@ -159,7 +161,7 @@ function (_Component) {
     value: function fetchPaymentMethods() {
       var _this3 = this;
 
-      fetch('/api/payment-methods').then(function (response) {
+      Object(_api_calls__WEBPACK_IMPORTED_MODULE_2__["getPaymentMethods"])().then(function (response) {
         return response.json();
       }).then(function (payment_method) {
         return _this3.setState({
@@ -171,23 +173,17 @@ function (_Component) {
     }
   }, {
     key: "orderProduct",
-    value: function orderProduct(e, paymentMethod, quantity, price, productName) {
+    value: function orderProduct(e, paymentMethod, quantity, price, name) {
       var _this4 = this;
 
       var payload = {
         quantity: quantity,
-        name: productName,
+        name: name,
         price: price,
         payment_method: paymentMethod
       };
       e.preventDefault();
-      fetch("/api/orders", {
-        method: "POST",
-        body: JSON.stringify(payload),
-        headers: {
-          "Content-Type": "application/json"
-        }
-      }).then(function (response) {
+      Object(_api_calls__WEBPACK_IMPORTED_MODULE_2__["postOrders"])(payload).then(function (response) {
         return response.json();
       }).then(function (data) {
         return _this4.setState({
@@ -226,6 +222,56 @@ function (_Component) {
 }(react__WEBPACK_IMPORTED_MODULE_0__["Component"]);
 
 /* harmony default export */ __webpack_exports__["default"] = (CodingTaskApp);
+
+/***/ }),
+
+/***/ "./assets/js/api/calls.js":
+/*!********************************!*\
+  !*** ./assets/js/api/calls.js ***!
+  \********************************/
+/*! exports provided: getProducts, getPaymentMethods, postOrders */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getProducts", function() { return getProducts; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getPaymentMethods", function() { return getPaymentMethods; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "postOrders", function() { return postOrders; });
+/* harmony import */ var ___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ */ "./assets/js/api/index.js");
+
+function getProducts() {
+  return fetch(___WEBPACK_IMPORTED_MODULE_0__["GET_PRODUCTS"]);
+}
+function getPaymentMethods() {
+  return fetch(___WEBPACK_IMPORTED_MODULE_0__["GET_PAYMENT_METHODS"]);
+}
+function postOrders(payload) {
+  return fetch(___WEBPACK_IMPORTED_MODULE_0__["POST_ORDERS"], {
+    method: "POST",
+    body: JSON.stringify(payload),
+    headers: {
+      "Content-Type": "application/json"
+    }
+  });
+}
+
+/***/ }),
+
+/***/ "./assets/js/api/index.js":
+/*!********************************!*\
+  !*** ./assets/js/api/index.js ***!
+  \********************************/
+/*! exports provided: GET_PRODUCTS, GET_PAYMENT_METHODS, POST_ORDERS */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "GET_PRODUCTS", function() { return GET_PRODUCTS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "GET_PAYMENT_METHODS", function() { return GET_PAYMENT_METHODS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "POST_ORDERS", function() { return POST_ORDERS; });
+var GET_PRODUCTS = '/api/products';
+var GET_PAYMENT_METHODS = '/api/payment-methods';
+var POST_ORDERS = '/api/orders';
 
 /***/ }),
 
@@ -296,11 +342,13 @@ function (_Component) {
     _this.state = {
       isShowForm: false,
       selectedQuantity: 1,
-      selectedPayMethod: 'cash'
+      selectedPayMethod: 'cash',
+      totalPrice: null
     };
     _this.handlePayMethodChange = _this.handlePayMethodChange.bind(_assertThisInitialized(_assertThisInitialized(_this)));
     _this.showForm = _this.showForm.bind(_assertThisInitialized(_assertThisInitialized(_this)));
     _this.handleQuantityChange = _this.handleQuantityChange.bind(_assertThisInitialized(_assertThisInitialized(_this)));
+    _this.calculatePrice = _this.calculatePrice.bind(_assertThisInitialized(_assertThisInitialized(_this)));
     return _this;
   }
 
@@ -321,14 +369,25 @@ function (_Component) {
   }, {
     key: "handleQuantityChange",
     value: function handleQuantityChange(e) {
+      var _this2 = this;
+
       this.setState({
         selectedQuantity: e.target.value
+      }, function () {
+        return _this2.calculatePrice();
+      });
+    }
+  }, {
+    key: "calculatePrice",
+    value: function calculatePrice() {
+      this.setState({
+        totalPrice: this.props.product.price * this.state.selectedQuantity
       });
     }
   }, {
     key: "render",
     value: function render() {
-      var _this2 = this;
+      var _this3 = this;
 
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "card",
@@ -370,9 +429,14 @@ function (_Component) {
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         className: "btn btn-primary",
         onClick: function onClick(e) {
-          return _this2.props.order(e, _this2.state.selectedPayMethod, _this2.state.selectedQuantity, _this2.props.product.price, _this2.props.product.name);
+          return _this3.props.order(e, _this3.state.selectedPayMethod, _this3.state.selectedQuantity, _this3.props.product.price, _this3.props.product.name);
         }
-      }, "Buy"))));
+      }, "Buy")), this.state.totalPrice && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "Price: ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("strong", null, this.props.product.currency, " ", this.state.totalPrice))));
+    }
+  }, {
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      this.calculatePrice();
     }
   }]);
 
