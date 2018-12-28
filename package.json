@@ -7,7 +7,8 @@
     "dev": "node node_modules/cross-env/dist/bin/cross-env.js NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
     "watch": "node node_modules/cross-env/dist/bin/cross-env.js NODE_ENV=development node_modules/webpack/bin/webpack.js --watch --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
     "hot": "node node_modules/cross-env/dist/bin/cross-env.js NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
-    "production": "node node_modules/cross-env/dist/bin/cross-env.js NODE_ENV=production node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
+    "production": "node node_modules/cross-env/dist/bin/cross-env.js NODE_ENV=production node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "test": "cross-env NODE_ENV=test jest"
   },
   "repository": {
     "type": "git",
@@ -21,9 +22,17 @@
   "homepage": "https://github.com/madhusudhan1234/ct#readme",
   "devDependencies": {
     "@babel/preset-react": "^7.0.0",
+    "babel": "^6.23.0",
+    "babel-jest": "^23.6.0",
+    "babel-preset-es2015": "^6.24.1",
     "browser-sync": "^2.26.3",
     "browser-sync-webpack-plugin": "^2.0.1",
     "cross-env": "^5.2.0",
+    "enzyme": "^3.8.0",
+    "enzyme-adapter-react-16": "^1.7.1",
+    "enzyme-to-json": "^3.3.5",
+    "jest": "^23.6.0",
+    "jest-fetch-mock": "^2.1.0",
     "laravel-mix": "^4.0.12",
     "node-sass": "^4.11.0",
     "resolve-url-loader": "^2.3.1",
@@ -31,7 +40,13 @@
     "vue-template-compiler": "^2.5.21"
   },
   "dependencies": {
+    "babel-preset-react": "^6.24.1",
     "react": "^16.7.0",
     "react-dom": "^16.7.0"
+  },
+  "jest": {
+    "testMatch": [
+      "<rootDir>/tests/frontend/**/?(*.)(spec|test).js?(x)"
+    ]
   }
 }

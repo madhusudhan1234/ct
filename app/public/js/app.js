@@ -153,7 +153,7 @@ function (_Component) {
           products: product.data
         });
       }).catch(function (e) {
-        return console.error(e);
+        return console.error("Something went wrong:::".concat(JSON.stringify(e)));
       });
     }
   }, {
@@ -168,7 +168,7 @@ function (_Component) {
           payment_methods: payment_method.data
         });
       }).catch(function (e) {
-        return console.error(e);
+        return console.error("Something went wrong:::".concat(JSON.stringify(e)));
       });
     }
   }, {

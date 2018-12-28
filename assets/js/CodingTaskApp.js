@@ -20,7 +20,7 @@ class CodingTaskApp extends Component {
     getProducts()
       .then(response => response.json())
       .then(product => this.setState({ products: product.data }))
-      .catch(e => console.error(e));
+      .catch(e => console.error(`Something went wrong:::${e.json()}`));
 
   }
 
@@ -28,7 +28,7 @@ class CodingTaskApp extends Component {
     getPaymentMethods()
       .then(response => response.json())
       .then(payment_method => this.setState({ payment_methods: payment_method.data }))
-      .catch(e => console.error(e));
+      .catch(e => console.error(`Something went wrong:::${JSON.stringify(e.json())}`));
   }
 
   orderProduct(e, paymentMethod, quantity, price, name) {

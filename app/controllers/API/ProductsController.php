@@ -11,6 +11,10 @@ class ProductsController
      * @return JsonResponse
      */
     public function index() {
-        return new JsonResponse(Product::getProducts());
+        try {
+            return new JsonResponse(Product::getProducts(), 200);
+        } catch (\Exception $e) {
+            return new JsonResponse(null, 500, "Something Went Wrong");
+        }
     }
 }
