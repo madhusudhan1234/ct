@@ -6,17 +6,9 @@ class PaymentMethod
 {
     public static function getPaymentMethods()
     {
-        return [
-            [
-                "id" => "1",
-                "type" => "cash",
-                "name" => "Cash on Delivery"
-            ],
-            [
-                "id" => "2",
-                "type" => "stripe",
-                "name" => "Stripe Payment Gateway"
-            ]
-        ];
+        $pamentMethodsStr = file_get_contents("https://my-json-server.typicode.com/madhusudhan1234/madhusudhan1234/payment_methods");
+        $paymentMethods = json_decode($pamentMethodsStr, true);
+
+        return $paymentMethods;
     }
 }
