@@ -59,4 +59,12 @@ describe('Product Component', () => {
     let tree = component.toJSON();
     expect(tree).toMatchSnapshot();
   });
+
+  test('Product Component does not have form in beginning', () => {
+    const element = shallow(
+        <Product { ...props } />
+    );
+
+    expect(element.find('form').length).toBe(0);
+  });
 });
