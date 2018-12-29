@@ -5,6 +5,10 @@ namespace App\Controllers\API;
 use App\Models\Product;
 use Core\JsonResponse;
 
+/**
+ * Class ProductsController
+ * @package App\Controllers\API
+ */
 class ProductsController
 {
     /**

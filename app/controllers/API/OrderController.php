@@ -4,6 +4,10 @@ namespace App\Controllers\API;
 
 use Core\JsonResponse;
 
+/**
+ * Class OrderController
+ * @package App\Controllers\API
+ */
 class OrderController
 {
     /**

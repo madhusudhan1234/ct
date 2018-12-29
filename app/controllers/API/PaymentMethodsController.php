@@ -4,6 +4,10 @@ namespace App\Controllers\API;
 use App\Models\PaymentMethod;
 use Core\JsonResponse;
 
+/**
+ * Class PaymentMethodsController
+ * @package App\Controllers\API
+ */
 class PaymentMethodsController
 {
     /**
