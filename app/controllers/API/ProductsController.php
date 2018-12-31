@@ -2,6 +2,7 @@
 
 namespace App\Controllers\API;
 
+use App\Controllers\Interfaces\ProductsControllerInterface;
 use App\Models\Product;
 use Core\JsonResponse;
 
@@ -9,7 +10,7 @@ use Core\JsonResponse;
  * Class ProductsController
  * @package App\Controllers\API
  */
-class ProductsController
+class ProductsController implements ProductsControllerInterface
 {
     /**
      * @return JsonResponse
@@ -18,7 +19,7 @@ class ProductsController
         try {
             return new JsonResponse(Product::getProducts(), 200);
         } catch (\Exception $e) {
-            return new JsonResponse(null, 500, "Something Went Wrong");
+            return new JsonResponse(null, 500, $e->getMessage());
         }
     }
 }

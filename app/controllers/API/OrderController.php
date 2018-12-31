@@ -2,13 +2,14 @@
 
 namespace App\Controllers\API;
 
+use App\Controllers\Interfaces\OrderControllerInterface;
 use Core\JsonResponse;
 
 /**
  * Class OrderController
  * @package App\Controllers\API
  */
-class OrderController
+class OrderController implements OrderControllerInterface
 {
     /**
      * @return JsonResponse
